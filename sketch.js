@@ -7,8 +7,9 @@ let clearBtn;
 let aboutBtn;
 let previousState = 'start';
 let circleSize = 280;
-let aboutReturnY = 0;
 let blobSizes = [320, 280, 240];
+let aboutContent;
+let startTitle, startHint, startContent;
 
 
 function preload() {
@@ -35,7 +36,22 @@ function setup() {
         state = 'about';
         clearBtn.hide();
         aboutBtn.hide();
+        startContent.style('display', 'none');
+        aboutContent.style('display', 'block');
     });
+
+    aboutContent = select('#about-content');
+    select('#about-return').mousePressed(function() {
+        state = previousState;
+        aboutBtn.show();
+        if (previousState === 'planting') clearBtn.show();
+        if (previousState === 'start') startContent.style('display', 'block');
+        aboutContent.style('display', 'none');
+    });
+
+    startContent = select('#start-content');
+    startTitle = select('#start-title');
+    startHint = select('#start-hint');
 }
 
 function windowResized() {
@@ -68,16 +84,13 @@ function drawStartPage() {
     ellipse(width / 2, height / 2, circleSize, circleSize);
     drawingContext.filter = 'none';
 
-    fill(255);
-    textAlign(CENTER, CENTER);
-    textFont('Barriecito');
-
+    //hover
     if (d < 180) {
-        textSize(16);
-        text('click anywhere to plant a tree', width / 2, height / 2);
+        startTitle.style('display', 'none');
+        startHint.style('display', 'block');
     } else {
-        textSize(28);
-        text('PLANT A TREE', width / 2, height / 2);
+        startTitle.style('display', 'block');
+        startHint.style('display', 'none');
     }
 
     image(seedImg, mouseX, mouseY, 32, 32);
@@ -88,7 +101,6 @@ function drawAboutPage() {
     colorMode(RGB);
     background(220, 235, 250);
 
-    //about page circle
     let blobs = [
         { x: width * 0.6, y: height * 0.15, baseSize: 320, color: [180, 210, 240] },
         { x: width * 0.35, y: height * 0.45, baseSize: 280, color: [200, 220, 250] },
@@ -106,48 +118,6 @@ function drawAboutPage() {
         ellipse(b.x, b.y, blobSizes[i], blobSizes[i]);
     }
     drawingContext.filter = 'none';
-
-    //title
-    fill(230, 80, 120);
-    textAlign(CENTER, CENTER);
-    textFont('Barriecito');
-    textSize(36);
-    text('Fractal Trees', width / 2, 80);
-
-    //body
-    fill(90, 110, 130);
-    textSize(18);
-    textAlign(LEFT, TOP);
-    let x = width / 2 - 200;
-    let y = 150;
-    let lh = 30;
-
-    text('Click to plant a tree. Each tree is generated', x, y); y += lh;
-    text('by a recursive branching algorithm.', x, y); y += lh * 1.6;
-
-    text('The click position is used as a random seed —', x, y); y += lh;
-    text('clicking the same spot produces the same tree.', x, y); y += lh * 1.6;
-
-    text('Branches split at random angles, get thinner', x, y); y += lh;
-    text('with each level, and have circles at the forks.', x, y); y += lh * 1.6;
-
-    text('Mic input is mapped to wind strength.', x, y); y += lh;
-    text('Wind affects grass and petals.', x, y); y += lh;
-    text('Speech recognition converts voice to text', x, y); y += lh;
-    text('that drops with physics.', x, y); y += lh * 2;
-
-    //let's plant some trees together
-    aboutReturnY = y;
-    let returnText = "let's plant some trees together !";
-    textSize(22);
-    let tw = textWidth(returnText);
-    let th = 22;
-    let hoverReturn = mouseX > width / 2 - tw / 2 && mouseX < width / 2 + tw / 2 &&
-                      mouseY > y - th / 2 && mouseY < y + th / 2;
-    fill(230, 80, 120);
-    textSize(hoverReturn ? 24 : 22);
-    textAlign(CENTER, CENTER);
-    text(returnText, width / 2, y);
 
     image(seedImg, mouseX, mouseY, 32, 32);
 }
@@ -244,23 +214,11 @@ function mousePressed() {
             generateGrasses();
             startMic();
             clearBtn.show();
+            startContent.style('display', 'none');
         }
     } else if (state === 'planting') {
         if (mouseY < height - 50) {
             plantTreeAt(mouseX, mouseY);
-        }
-    } else if (state === 'about') {
-        let returnText = "let's plant some trees together !";
-        textFont('Barriecito');
-        textSize(22);
-        let tw = textWidth(returnText);
-        let th = 22;
-        let inBounds = mouseX > width / 2 - tw / 2 && mouseX < width / 2 + tw / 2 &&
-                       mouseY > aboutReturnY - th / 2 && mouseY < aboutReturnY + th / 2;
-        if (inBounds) {
-            state = previousState;
-            aboutBtn.show();
-            if (previousState === 'planting') clearBtn.show();
         }
     }
 }

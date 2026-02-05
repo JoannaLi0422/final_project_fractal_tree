@@ -12,8 +12,7 @@ canvas {
   left: 0;
 }
 
-/* Unused bubble styles - kept for future reference
-.bubble {
+/* .bubble {
   border: none;
   border-radius: 50%;
   background: rgba(173, 216, 230, 0.3);
@@ -47,7 +46,6 @@ canvas {
 }
 */
 
-/* Tree page buttons */
 .tree-btn {
   position: fixed;
   background: rgba(255, 235, 240, 0.8);
@@ -73,5 +71,85 @@ canvas {
 .about-btn {
   bottom: 50px;
   left: 15px;
+}
+
+#start-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+#start-title,
+#start-hint {
+  font-family: 'Barriecito', cursive;
+  color: white;
+}
+
+#start-title {
+  font-size: 28px;
+}
+
+#start-hint {
+  font-size: 16px;
+  display: none;
+}
+
+#about-content {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+#about-content h1 {
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Barriecito', cursive;
+  font-size: 36px;
+  color: rgb(230, 80, 120);
+  margin: 0;
+  text-align: center;
+}
+
+#about-content .about-body {
+  position: absolute;
+  top: 150px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  font-family: 'Barriecito', cursive;
+  font-size: 18px;
+  color: rgb(90, 110, 130);
+  line-height: 1.6;
+}
+
+#about-content .about-body p {
+  margin: 0 0 20px 0;
+}
+
+#about-return {
+  position: absolute;
+  bottom: 150px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Barriecito', cursive;
+  font-size: 22px;
+  color: rgb(230, 80, 120);
+  cursor: pointer;
+  pointer-events: auto;
+  transition: font-size 0.2s;
+}
+
+#about-return:hover {
+  font-size: 24px;
 }
 
