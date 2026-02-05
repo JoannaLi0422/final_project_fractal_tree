@@ -1,6 +1,5 @@
 //mic setup
 var mic;
-var micLevel = 0;
 var windStrength = 0;
 var micReady = false;
 

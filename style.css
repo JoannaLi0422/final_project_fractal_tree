@@ -7,6 +7,7 @@ canvas {
   display: block;
 }
 
+/* Unused bubble styles - kept for future reference
 .bubble {
   border: none;
   border-radius: 50%;
@@ -38,4 +39,22 @@ canvas {
 .bubble:hover {
   box-shadow: 0 0 35px 12px rgba(173, 216, 230, 0.5);
   filter: blur(1px);
+}
+*/
+
+/* Tree page buttons */
+.tree-btn {
+  background: rgba(255, 235, 240, 0.8);
+  border: none;
+  border-radius: 15px;
+  padding: 8px 16px;
+  color: rgb(230, 80, 120);
+  font-family: 'Barriecito', cursive;
+  font-size: 20px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.tree-btn:hover {
+  transform: scale(1.2);
 }

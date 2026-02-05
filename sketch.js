@@ -23,33 +23,13 @@ function setup() {
     //button
     clearBtn = createButton('clear');
     clearBtn.position(width - 85, height - 50);
-    clearBtn.style('background', 'rgba(255, 235, 240, 0.8)');
-    clearBtn.style('border', 'none');
-    clearBtn.style('border-radius', '15px');
-    clearBtn.style('padding', '8px 16px');
-    clearBtn.style('color', 'rgb(230, 80, 120)');
-    clearBtn.style('font-family', 'Barriecito');
-    clearBtn.style('font-size', '20px');
-    clearBtn.style('cursor', 'pointer');
-    clearBtn.style('transition', 'transform 0.2s');
-    clearBtn.mouseOver(() => { clearBtn.style('transform', 'scale(1.2)'); });
-    clearBtn.mouseOut(() => { clearBtn.style('transform', 'scale(1)'); });
+    clearBtn.class('tree-btn');
     clearBtn.hide();
 
     //about button
     aboutBtn = createButton('About');
     aboutBtn.position(15, height - 50);
-    aboutBtn.style('background', 'rgba(255, 235, 240, 0.8)');
-    aboutBtn.style('border', 'none');
-    aboutBtn.style('border-radius', '15px');
-    aboutBtn.style('padding', '8px 16px');
-    aboutBtn.style('color', 'rgb(230, 80, 120)');
-    aboutBtn.style('font-family', 'Barriecito');
-    aboutBtn.style('font-size', '20px');
-    aboutBtn.style('cursor', 'pointer');
-    aboutBtn.style('transition', 'transform 0.2s');
-    aboutBtn.mouseOver(() => { aboutBtn.style('transform', 'scale(1.2)'); });
-    aboutBtn.mouseOut(() => { aboutBtn.style('transform', 'scale(1)'); });
+    aboutBtn.class('tree-btn');
 }
 
 function draw() {
@@ -79,7 +59,6 @@ function drawStartPage() {
     drawingContext.filter = 'none';
 
     fill(255);
-    noStroke();
     textAlign(CENTER, CENTER);
     textFont('Barriecito');
 
@@ -108,7 +87,6 @@ function drawAboutPage() {
 
     //title
     fill(230, 80, 120);
-    noStroke();
     textAlign(CENTER, CENTER);
     textFont('Barriecito');
     textSize(36);
@@ -322,7 +300,6 @@ function plantTreeAt(mx, my) {
 
 function drawTree(t, len, remaining, depth) {
     if (remaining <= 0) return;
-    if (depth === undefined) depth = 0;
 
     let segLen = min(len, remaining);
     strokeWeight(map(len, t.minLen, t.maxLen, 0.5, 3) * t.thickness);
