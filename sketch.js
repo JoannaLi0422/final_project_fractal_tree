@@ -8,6 +8,7 @@ let aboutBtn;
 let previousState = 'start';
 let circleSize = 280;
 let aboutReturnY = 0;
+let blobSizes = [320, 280, 240];
 
 
 function preload() {
@@ -17,19 +18,28 @@ function preload() {
 function setup() {
     createCanvas(windowWidth, windowHeight);
     imageMode(CENTER);
-    noCursor();
     setupMic();
 
-    //button
     clearBtn = createButton('clear');
-    clearBtn.position(width - 85, height - 50);
-    clearBtn.class('tree-btn');
+    clearBtn.class('tree-btn clear-btn');
+    clearBtn.mousePressed(function() {
+        trees = [];
+        clearWords();
+    });
     clearBtn.hide();
 
-    //about button
     aboutBtn = createButton('About');
-    aboutBtn.position(15, height - 50);
-    aboutBtn.class('tree-btn');
+    aboutBtn.class('tree-btn about-btn');
+    aboutBtn.mousePressed(function() {
+        previousState = state;
+        state = 'about';
+        clearBtn.hide();
+        aboutBtn.hide();
+    });
+}
+
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
 }
 
 function draw() {
@@ -78,11 +88,23 @@ function drawAboutPage() {
     colorMode(RGB);
     background(220, 235, 250);
 
-    //decorative blob
+    //about page circle
+    let blobs = [
+        { x: width * 0.6, y: height * 0.15, baseSize: 320, color: [180, 210, 240] },
+        { x: width * 0.35, y: height * 0.45, baseSize: 280, color: [200, 220, 250] },
+        { x: width * 0.65, y: height * 0.7, baseSize: 240, color: [170, 200, 230] }
+    ];
+
     drawingContext.filter = 'blur(50px)';
     noStroke();
-    fill(180, 210, 240);
-    ellipse(width * 0.75, height * 0.25, 320, 320);
+    for (let i = 0; i < blobs.length; i++) {
+        let b = blobs[i];
+        let d = dist(mouseX, mouseY, b.x, b.y);
+        let targetSize = d < b.baseSize / 2 ? b.baseSize * 1.3 : b.baseSize;
+        blobSizes[i] = lerp(blobSizes[i], targetSize, 0.1);
+        fill(b.color[0], b.color[1], b.color[2]);
+        ellipse(b.x, b.y, blobSizes[i], blobSizes[i]);
+    }
     drawingContext.filter = 'none';
 
     //title
@@ -116,11 +138,16 @@ function drawAboutPage() {
 
     //let's plant some trees together
     aboutReturnY = y;
-    let hoverReturn = dist(mouseX, mouseY, width / 2, y) < 140;
+    let returnText = "let's plant some trees together !";
+    textSize(22);
+    let tw = textWidth(returnText);
+    let th = 22;
+    let hoverReturn = mouseX > width / 2 - tw / 2 && mouseX < width / 2 + tw / 2 &&
+                      mouseY > y - th / 2 && mouseY < y + th / 2;
     fill(230, 80, 120);
     textSize(hoverReturn ? 24 : 22);
     textAlign(CENTER, CENTER);
-    text("let's plant some trees together !", width / 2, y);
+    text(returnText, width / 2, y);
 
     image(seedImg, mouseX, mouseY, 32, 32);
 }
@@ -210,22 +237,6 @@ function drawGrasses() {
 
 
 function mousePressed() {
-    //about button
-    if (state !== 'about' && mouseX >= 15 && mouseX <= 110 && mouseY >= height - 55 && mouseY <= height - 10) {
-        previousState = state;
-        state = 'about';
-        clearBtn.hide();
-        aboutBtn.hide();
-        return;
-    }
-
-    //clear button
-    if (state === 'planting' && mouseX >= width - 90 && mouseX <= width - 5 && mouseY >= height - 55 && mouseY <= height - 10) {
-        trees = [];
-        clearWords();
-        return;
-    }
-
     if (state === 'start') {
         let d = dist(mouseX, mouseY, width / 2, height / 2);
         if (d < 180) {
@@ -239,7 +250,14 @@ function mousePressed() {
             plantTreeAt(mouseX, mouseY);
         }
     } else if (state === 'about') {
-        if (dist(mouseX, mouseY, width / 2, aboutReturnY) < 140) {
+        let returnText = "let's plant some trees together !";
+        textFont('Barriecito');
+        textSize(22);
+        let tw = textWidth(returnText);
+        let th = 22;
+        let inBounds = mouseX > width / 2 - tw / 2 && mouseX < width / 2 + tw / 2 &&
+                       mouseY > aboutReturnY - th / 2 && mouseY < aboutReturnY + th / 2;
+        if (inBounds) {
             state = previousState;
             aboutBtn.show();
             if (previousState === 'planting') clearBtn.show();

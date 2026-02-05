@@ -2,9 +2,14 @@ html, body {
   margin: 0;
   padding: 0;
   overflow: hidden;
+  cursor: none;
 }
 canvas {
   display: block;
+  cursor: none;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 
 /* Unused bubble styles - kept for future reference
@@ -44,6 +49,7 @@ canvas {
 
 /* Tree page buttons */
 .tree-btn {
+  position: fixed;
   background: rgba(255, 235, 240, 0.8);
   border: none;
   border-radius: 15px;
@@ -58,3 +64,14 @@ canvas {
 .tree-btn:hover {
   transform: scale(1.2);
 }
+
+.clear-btn {
+  bottom: 50px;
+  right: 15px;
+}
+
+.about-btn {
+  bottom: 50px;
+  left: 15px;
+}
+
